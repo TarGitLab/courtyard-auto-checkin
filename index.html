@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courtyard · Account Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+<header style="display: flex; flex-direction: column; ">
+  <div class="logo">courtyard<span>.</span>bot</div>
+  <div style="display: flex; justify-content: end; width: 100%;">
+    <a href="https://t.me/evm_recover" class="color-change" target="_blank">Help & Support</a>
+    &nbsp;|&nbsp;
+    <a href="./emails.html" target="_blank">Generate Emails</a>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost btn-sm" onclick="App.fetchAllBalances()">💰 Fetch All Balances</button>
+    <button class="btn btn-ghost btn-sm" onclick="App.fetchAllEligibility()">📅 Check All Eligibility</button>
+    <button class="btn btn-success btn-sm" onclick="App.claimAllEligible()">✅ Claim All Check-ins</button>
+    <button class="btn btn-sm" style="background-color: var(--accent); color: white; font-weight: bold;" onclick="App.verifyAllEmails()">🔑 Verify All Emails</button>
+
+    <button class="btn btn-ghost btn-sm" onclick="App.resetServerUrl()">⚙️ Server URL</button>
+  </div>
+
+  <div>
+      <!-- Summary Bar -->
+      <div id="summary-bar" class="summary-bar" style="display: flex; gap: 1rem;">
+        <div class="summary-item"><label>Accounts</label><span id="s-total">—</span></div>
+        <div class="summary-item"><label>Active Tokens</label><span id="s-active">—</span></div>
+        <div class="summary-item"><label>Expired Tokens</label><span id="s-expired">—</span></div>
+        <div class="summary-item"><label>Claimable</label><span id="s-claimable">—</span></div>
+        <div class="summary-item"><label>Claimed Today</label><span id="s-claimed">—</span></div>
+        <div class="summary-item accent"><label>Total Spendable</label><span id="s-points">—</span></div>
+      </div>
+
+      <div class="summary-item accent">
+        <label>Total Spendable</label>
+        <span id="s-points">—</span>
+        <button class="btn btn-ghost btn-sm" onclick="App.sumAllPoints()">➕ Sum</button>
+      </div>
+
+      <!-- Search Bar -->
+      <div id="search-wrap">
+        <input id="search-input" class="search-input" type="text" placeholder="🔍 Search by email, username or wallet…" oninput="App.search(this.value)" />
+      </div>
+  </div>
+
+</header>
+
+<main>
+  <div class="section-header">
+    <div class="section-title">Accounts</div>
+    <span id="global-status" class="status-msg"></span>
+  </div>
+  <div id="accounts-grid" class="accounts-grid"></div>
+</main>
+
+<div id="toast-container"></div>
+
+<script src="./assets/js/app.js" type="module"></script>
+</body>
+</html>

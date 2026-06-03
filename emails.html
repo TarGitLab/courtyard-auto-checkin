@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gmail Alias Generator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    input, button, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        box-sizing: border-box;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    textarea {
+        height: 250px;
+        resize: vertical;
+    }
+
+    .row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .row input {
+        flex: 1;
+    }
+</style>
+</head>
+<body>
+
+    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 20px; justify-content: space-between;">
+        <h2>Gmail Alias Generator</h2>
+        <a href="./index.html">Home</a>
+    </div>
+
+<label>Base Gmail</label>
+<input
+    type="email"
+    id="emailInput"
+    placeholder="test@gmail.com"
+/>
+
+<label>How Many Emails?</label>
+<input
+    type="number"
+    id="countInput"
+    value="5"
+    min="1"
+/>
+
+<button onclick="generateEmails()">Generate Emails</button>
+
+<button onclick="copyEmails()">Copy All Emails</button>
+
+<textarea id="output" readonly></textarea>
+
+<script>
+let generatedEmails = [];
+
+function generateEmails() {
+    const email = document.getElementById('emailInput').value.trim();
+    const count = parseInt(document.getElementById('countInput').value);
+
+    if (!email.includes('@')) {
+        alert('Enter a valid email');
+        return;
+    }
+
+    const [username, domain] = email.split('@');
+
+    generatedEmails = [];
+
+    // Original email
+    generatedEmails.push(email);
+
+    // Aliases
+    for (let i = 1; i < count; i++) {
+        generatedEmails.push(
+            `${username}+c${i}@${domain}`
+        );
+    }
+
+    document.getElementById('output').value =
+        generatedEmails.join('\n');
+
+    console.log(generatedEmails); // Array available here
+}
+
+async function copyEmails() {
+    if (!generatedEmails.length) {
+        alert('Generate emails first');
+        return;
+    }
+
+    const arrayString = JSON.stringify(generatedEmails, null, 2);
+
+    await navigator.clipboard.writeText(arrayString);
+
+    alert('Array copied!');
+}
+</script>
+
+</body>
+</html>
