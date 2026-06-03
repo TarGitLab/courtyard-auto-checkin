@@ -227,15 +227,15 @@ function updateSummary() {
       expired++;
       continue;
     }
+    if(isDailyCheckinDone(email)) claimed++;
+    
     if (isTokenExpired(sess.token)) {
-       if(isDailyCheckinDone(email)) claimed++;
        expired++;
     } else {
       active++;
     }
 
     if (st.eligibility?.eligible) claimable++;
-    if (st.lastCheckin || st.eligibility?.eligible === false) claimed++;
 
     const bal = st.balance?.points_balances?.spendable?.balance;
     if (bal) points += Number(bal) || 0;
