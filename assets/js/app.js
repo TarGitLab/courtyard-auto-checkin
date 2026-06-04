@@ -144,12 +144,15 @@ function renderCard(email , index = 0) {
       : "✅ 🔄 Re-verify"
     : "🔑 Verify Email";
 
+  const isClaimed = isDailyCheckinDone(email) ? `<button class="btn btn-success btn-sm">✅ Claimed</button>` : ``;
+  
   const cardId = `card-${btoa(email).replace(/=/g, "")}`;
   const cardHtml = `
     <div class="account-card" id="${cardId}">
       <div class="card-header">
         <div class="">${avatarLetter}</div>
         <div class="account-email">${email}</div>
+        ${isClaimed}
         ${tokenBadge}
         ${eligBadge}
         <div class="card-header-actions">
