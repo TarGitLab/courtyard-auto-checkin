@@ -80,7 +80,7 @@ function renderCard(email , index = 0) {
 
   let tokenSection = "";
   if (sess?.token && !expired && expiry) {
-    tokenSectigetAllPointson = `
+    tokenSection = `
       <div class="info-block">
         <label>Token Expires</label>
         <div class="value countdown" id="cd-${btoa(email).replace(/=/g, "")}">
@@ -145,7 +145,7 @@ function renderCard(email , index = 0) {
     : "🔑 Verify Email";
 
   const isClaimed = isDailyCheckinDone(email) ? `<button class="btn btn-success btn-sm">✅ Claimed</button>` : ``;
-  const storageBalance = `<button class="btn btn-sm">${fetBalance(email)}</button>`;
+  const storageBalance = `<button class="btn btn-sm">Points: ${fetBalance(email)}</button>`;
   
   const cardId = `card-${btoa(email).replace(/=/g, "")}`;
   const cardHtml = `

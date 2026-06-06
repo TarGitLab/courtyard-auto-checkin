@@ -97,5 +97,6 @@ export function getAllPoints() {
 export function fetBalance(email) {
   const key = "courtyard_points";
   const all = JSON.parse(localStorage.getItem(key) ?? "{}");
+  if(all[email] === undefined) return 0;
   return all[email];
 }
