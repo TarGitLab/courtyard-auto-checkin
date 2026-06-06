@@ -1,6 +1,6 @@
 // ── APP ───────────────────────────────────────────────────────────────────────
 import { formatCountdown, sleep, truncate } from "./helpers.js";
-import { saveSession, getSession, isTokenExpired, getTokenExpiry, markDailyCheckin, isDailyCheckinDone, getServerUrl, setServerUrl , savePoints, getAllPoints} from "./storage.js";
+import { saveSession, getSession, isTokenExpired, getTokenExpiry, markDailyCheckin, isDailyCheckinDone, getServerUrl, setServerUrl , savePoints, getAllPoints, fetBalance} from "./storage.js";
 import {  fetchAccounts,  getBalance,  autoVerify,  getDailyEligibility,  claimDailyCheckin,} from "./api.js";
 
 // ═══════════════════════════════════════════════════════════════
@@ -80,7 +80,7 @@ function renderCard(email , index = 0) {
 
   let tokenSection = "";
   if (sess?.token && !expired && expiry) {
-    tokenSection = `
+    tokenSectigetAllPointson = `
       <div class="info-block">
         <label>Token Expires</label>
         <div class="value countdown" id="cd-${btoa(email).replace(/=/g, "")}">
@@ -145,6 +145,7 @@ function renderCard(email , index = 0) {
     : "🔑 Verify Email";
 
   const isClaimed = isDailyCheckinDone(email) ? `<button class="btn btn-success btn-sm">✅ Claimed</button>` : ``;
+  const storageBalance = `<button class="btn btn-sm">${fetBalance(email)}</button>`;
   
   const cardId = `card-${btoa(email).replace(/=/g, "")}`;
   const cardHtml = `
@@ -152,6 +153,7 @@ function renderCard(email , index = 0) {
       <div class="card-header">
         <div class="">${avatarLetter}</div>
         <div class="account-email">${email}</div>
+        ${storageBalance}
         ${isClaimed}
         ${tokenBadge}
         ${eligBadge}

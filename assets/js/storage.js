@@ -93,3 +93,9 @@ export function getAllPoints() {
   const all = JSON.parse(localStorage.getItem("courtyard_points") ?? "{}");
   return all;
 }
+
+export function fetBalance(email) {
+  const key = "courtyard_points";
+  const all = JSON.parse(localStorage.getItem(key) ?? "{}");
+  return all[email];
+}
