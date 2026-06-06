@@ -454,20 +454,6 @@ async function claimCheckinFn(email) {
 // ═══════════════════════════════════════════════════════════════
 //  BULK ACTIONS
 // ═══════════════════════════════════════════════════════════════
-async function fetchAllBalances() {
-
-    let permission = confirm("Do you want to fetch all accounts balances.");
-
-    if (!permission) {
-      return;
-    }
-
-  document.getElementById("global-status").textContent =
-    "Fetching all balances…";
-  for (const email of ACCOUNTS) await fetchBalanceFn(email);
-  document.getElementById("global-status").textContent =
-    "All balances fetched.";
-}
 
 async function verifyAllEmails() {
 
@@ -561,47 +547,6 @@ async function verifyAllEmails() {
   toast(msg, failed === 0 ? "ok" : "inf");
 }
 
-async function fetchAllEligibility() {
-
-  let permission = confirm("Do you want to fetch all accounts daily checkin status.");
-
-  if (!permission) {
-    return;
-  }
-
-  document.getElementById("global-status").textContent =
-    "Checking all eligibility…";
-  for (const email of ACCOUNTS) await fetchEligibilityFn(email);
-  document.getElementById("global-status").textContent =
-    "Eligibility check done.";
-}
-
-async function claimAllEligible() {
-
-  let permission = confirm("Do you want to claim all accounts daily checkin.");
-
-  if (!permission) {
-    return;
-  }
-
-  document.getElementById("global-status").textContent =
-    "Claiming eligible check-ins…";
-  let claimed = 0;
-  for (const email of ACCOUNTS) {
-    const st = state[email];
-    if (st?.eligibility?.eligible) {
-      await claimCheckinFn(email);
-      claimed++;
-    }
-  }
-  const msg =
-    claimed > 0
-      ? `Claimed ${claimed} check-in(s)!`
-      : "No eligible accounts to claim.";
-  document.getElementById("global-status").textContent = msg;
-  toast(msg, claimed > 0 ? "ok" : "inf");
-}
-
 async function resetServerUrl (){
   const url = prompt("Enter new server URL:", getServerUrl() ?? "");
   if (url !== null && url.trim()) {
@@ -626,9 +571,6 @@ function sumAllPoints() {
     fetchBalance: fetchBalanceFn,
     fetchEligibility: fetchEligibilityFn,
     claimCheckin: claimCheckinFn,
-    fetchAllBalances,
-    fetchAllEligibility,
-    claimAllEligible,
     search: searchFn,
     resetServerUrl,
     sumAllPoints,
