@@ -1,5 +1,5 @@
 // ── BACKEND API CLIENT ────────────────────────────────────────────────────────
-import { getServerUrl } from "./storage.js";
+import { getServerUrl, getSession } from "./storage.js";
 
 function getBaseUrl() {
   const url = getServerUrl();
@@ -49,6 +49,6 @@ export async function claimDailyCheckin(courtyardUserId, token) {
 export async function autoVerify(email) {
   return apiFetch("/auto-verify", {
     method: "POST",
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ email, sessionData: getSession(email) }),
   });
 }
