@@ -44,6 +44,13 @@
       <div id="search-wrap">
         <input id="search-input" class="search-input" type="text" placeholder="🔍 Search by email, username or wallet…" oninput="App.search(this.value)" />
       </div>
+
+      <select id="sort-points" onchange="App.sortByPoints(this.value)">
+        <option value="">Sort By Points</option>
+        <option value="high">High → Low</option>
+        <option value="low">Low → High</option>
+      </select>
+
   </div>
 
 </header>

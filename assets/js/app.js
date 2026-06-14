@@ -31,26 +31,41 @@ function toast(msg, type = "inf") {
 // ═══════════════════════════════════════════════════════════════
 //  RENDER CARD
 // ═══════════════════════════════════════════════════════════════
-function renderAll() {
-  const sorted = [...ACCOUNTS].sort((a, b) => {
-    const priority = (email) => {
-      const sess = getSession(email);
-      const st = state[email] ?? {};
-      const alreadyCheckedIn = isDailyCheckinDone(email);
-      const noToken = !sess?.token;
-      const expiredAndNotCheckedIn =
-        sess?.token && isTokenExpired(sess.token) && !alreadyCheckedIn;
+let currentSort = "";
 
-      if (noToken) return 0;
-      if (expiredAndNotCheckedIn) return 1;
-      if (st.eligibility?.eligible === true) return 2;
-      return 3;
-    };
-    return priority(a) - priority(b);
-  });
+function sortByPoints(order) {
+  currentSort = order;
+  document.getElementById("accounts-grid").innerHTML = "";
+  renderAll();
+}
+
+function renderAll() {
+  const sorted = [...ACCOUNTS];
+
+  if (currentSort) {
+    sorted.sort((a, b) => {
+      const pointsA = Number(fetBalance(a) || 0);
+      const pointsB = Number(fetBalance(b) || 0);
+
+      return currentSort === "high" ? pointsB - pointsA : pointsA - pointsB;
+    });
+  }
+
   sorted.forEach((account, index) => {
     renderCard(account, index);
   });
+}
+
+function sortByPoints(order) {
+  ACCOUNTS.sort((a, b) => {
+    const pointsA = Number(fetBalance(a) || 0);
+    const pointsB = Number(fetBalance(b) || 0);
+
+    return order === "high" ? pointsB - pointsA : pointsA - pointsB;
+  });
+
+  document.getElementById("accounts-grid").innerHTML = "";
+  renderAll();
 }
 
 function renderCard(email , index = 0) {
@@ -574,6 +589,7 @@ function sumAllPoints() {
     search: searchFn,
     resetServerUrl,
     sumAllPoints,
+    sortByPoints,
   };
 
 // ── INIT ──────────────────────────────────────────────────────
