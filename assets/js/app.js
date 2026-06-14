@@ -56,18 +56,6 @@ function renderAll() {
   });
 }
 
-function sortByPoints(order) {
-  ACCOUNTS.sort((a, b) => {
-    const pointsA = Number(fetBalance(a) || 0);
-    const pointsB = Number(fetBalance(b) || 0);
-
-    return order === "high" ? pointsB - pointsA : pointsA - pointsB;
-  });
-
-  document.getElementById("accounts-grid").innerHTML = "";
-  renderAll();
-}
-
 function renderCard(email , index = 0) {
   const sess = getSession(email);
   const st = state[email] ?? {};
